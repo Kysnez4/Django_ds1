@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интернет-магазин</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Левое меню -->
+        <div class="col-md-3 col-lg-2 bg-dark text-light sidebar">
+            <div class="pt-3">
+                <ul class="nav flex-column">
+                    <h4 class="px-3">Menu</h4>
+                    <li class="nav-item">
+                        <a href="main.html" class="nav-link px-3 py-2 my-1">
+                            Главная
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="catalog.html" class="nav-link px-3 py-2 my-1">
+                            Категории
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="category.html" class="nav-link px-3 py-2 my-1">
+                            Заказы
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="contacts.html" class="nav-link active px-3 py-2 my-1">
+                            Контакты
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Выпадающее меню пользователя -->
+            <div class="user-menu">
+                <div class="dropdown">
+                    <button class="user-dropdown-toggle dropdown-toggle" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="user-avatar">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                <path fill-rule="evenodd"
+                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                            </svg>
+                        </div>
+                        <span class="user-name">Пользователь</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#">Профиль</a></li>
+                        <li><a class="dropdown-item" href="#">Настройки</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Выйти</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основное содержимое -->
+        <main class="col-md-9 col-lg-10 main-content">
+            <div class="py-5 text-center">
+                <h2>Контакты</h2>
+
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <div class="col">
+                    <div class="card m-auto" style="width: 30rem;">
+                        <form style="padding: 20px;">
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Имя</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput1">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput2" class="form-label">Почта</label>
+                                <input type="email" class="form-control" id="exampleFormControlInput2">
+                            </div>
+                            <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Сообщение</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-primary">Отправить</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col">
+                    <h5>Наши контакты</h5>
+                    <p>аущкопрукшпрушкопощуурпшурезшпрйукгрпепшйшркпшщцрапщ
+                        шцркшзпказшарипцуаамшзциуиуащгийушгмйщшикпшзтащгиушзвта
+                        шуркпзшйуоуазшпгршкопзцгрпзшоапшзурукаоывырпушкоащроапшгрв
+                        адмтышапаушвтмупагнгувмгууармщыьвмшнпуашмтваш</p>
+                    <p>fjidfdbbsdvbsusfviefvihefhvdifhvkjshdsvkjdhfkhf
+                        fdfg;dnfuvbefbvidfvhbdfhbvh</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
