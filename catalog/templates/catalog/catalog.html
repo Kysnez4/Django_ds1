@@ -1,167 +1,34 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Интернет-магазин</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
-</head>
-<body>
-<div class="container-fluid">
-    <div class="row">
-        <!-- Левое меню -->
-        <div class="col-md-3 col-lg-2 bg-dark text-light sidebar">
-            <div class="pt-3">
-                <ul class="nav flex-column">
-                    <h4 class="px-3">Menu</h4>
-                    <li class="nav-item">
-                        <a href="/catalog/home" class="nav-link active px-3 py-2 my-1">
-                            Главная
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/catalog/catalog" class="nav-link px-3 py-2 my-1">
-                            Категории
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/catalog/category" class="nav-link px-3 py-2 my-1">
-                            Заказы
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/catalog/contacts" class="nav-link px-3 py-2 my-1">
-                            Контакты
-                        </a>
-                    </li>
-                </ul>
-            </div>
+{% extends 'catalog/base.html' %}
 
-            <!-- Выпадающее меню пользователя -->
-            <div class="user-menu">
-                <div class="dropdown">
-                    <button class="user-dropdown-toggle dropdown-toggle" type="button" id="userDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="user-avatar">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                 viewBox="0 0 16 16">
-                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                <path fill-rule="evenodd"
-                                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                            </svg>
-                        </div>
-                        <span class="user-name">Пользователь</span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="#">Профиль</a></li>
-                        <li><a class="dropdown-item" href="#">Настройки</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Выйти</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+{% block title %}Каталог{% endblock %}
 
-        <!-- Основное содержимое -->
-        <main class="col-md-9 col-lg-10 main-content">
-            <div class="py-5 text-center">
-                <h3>Каталог</h3>
-
-            </div>
-
-            <div class="row row-cols-md-2 col-lg-10 g-4 mx-auto">
-                <!-- Товар 1 -->
-                <div class="col">
-                    <div class="card pricing-card" style="width: 18rem;">
-                        <img src="https://yastatic.net/naydex/yandex-search/8zqWmi687/4f7b07skgvT6/NvsxHnHDbDOc8WSvWZ2gEUqaWwmGstI6opLCB4yFTxz4_ZUSPMKsR0Ho492um7p2IQ2vKUCnTLh1R7cK8FfQmmK_9WpgFoknrXQkL2nNgcSeq0rMJvcDnodXhnIsJZ9M3m4iRUtxfuQDb4RqL07vljQ5G93kgYpA"
-                             class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                This a wider card with supporting text below as a natural lead-in to addition content.
-                                This content is a little bit longer</p>
-                        </div>
-                        <div class="btn-toolbar justify-content-between m-3" role="toolbar">
-                            <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-outline-secondary">Edit</button>
-                            </div>
-                            <p class="card-text"><small class="text-muted">3 min</small></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Товар 2 -->
-                <div class="col ">
-                    <div class="card pricing-card" style="width: 18rem;">
-                        <img src="https://yastatic.net/naydex/yandex-search/8zqWmi687/4f7b07skgvT6/NvsxHnHDbDOc8WSvWZ2gEUqaWwmGstI6opLCB4yFTxz4_ZUSPMKsR0Ho492um7p2IQ2vKUCnTLh1R7cK8FfQmmK_9WpgFoknrXQkL2nNgcSeq0rMJvcDnodXhnIsJZ9M3m4iRUtxfuQDb4RqL07vljQ5G93kgYpA"
-                             class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                This a wider card with supporting text below as a natural lead-in to addition content.
-                                This content is a little bit longer</p>
-                        </div>
-                        <div class="btn-toolbar justify-content-between m-3" role="toolbar">
-                            <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-outline-secondary">Edit</button>
-                            </div>
-                            <p class="card-text"><small class="text-muted">3 min</small></p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Товар 3 -->
-                <div class="col ">
-                    <div class="card pricing-card" style="width: 18rem;">
-                        <img src="https://yastatic.net/naydex/yandex-search/8zqWmi687/4f7b07skgvT6/NvsxHnHDbDOc8WSvWZ2gEUqaWwmGstI6opLCB4yFTxz4_ZUSPMKsR0Ho492um7p2IQ2vKUCnTLh1R7cK8FfQmmK_9WpgFoknrXQkL2nNgcSeq0rMJvcDnodXhnIsJZ9M3m4iRUtxfuQDb4RqL07vljQ5G93kgYpA"
-                             class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                This a wider card with supporting text below as a natural lead-in to addition content.
-                                This content is a little bit longer</p>
-                        </div>
-                        <div class="btn-toolbar justify-content-between m-3" role="toolbar">
-                            <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-outline-secondary">Edit</button>
-                            </div>
-                            <p class="card-text"><small class="text-muted">3 min</small></p>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Товар 4 -->
-                <div class="col ">
-                    <div class="card pricing-card" style="width: 18rem;">
-                        <img src="https://yastatic.net/naydex/yandex-search/8zqWmi687/4f7b07skgvT6/NvsxHnHDbDOc8WSvWZ2gEUqaWwmGstI6opLCB4yFTxz4_ZUSPMKsR0Ho492um7p2IQ2vKUCnTLh1R7cK8FfQmmK_9WpgFoknrXQkL2nNgcSeq0rMJvcDnodXhnIsJZ9M3m4iRUtxfuQDb4RqL07vljQ5G93kgYpA"
-                             class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">
-                                This a wider card with supporting text below as a natural lead-in to addition content.
-                                This content is a little bit longer</p>
-                        </div>
-                        <div class="btn-toolbar justify-content-between m-3" role="toolbar">
-                            <div class="btn-group " role="group">
-                                <button type="button" class="btn btn-outline-secondary">View</button>
-                                <button type="button" class="btn btn-outline-secondary">Edit</button>
-                            </div>
-                            <p class="card-text"><small class="text-muted">3 min</small></p>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
+{% block content %}
+<div class="py-5 text-center">
+    <h3>Каталог</h3>
 </div>
 
-<!-- Bootstrap 5 JS Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<div class="row row-cols-md-2 col-lg-10 g-4 mx-auto">
+    {% for product in products %}
+    <!-- Товар -->
+    <div class="col">
+        <div class="card pricing-card" style="width: 18rem;">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+                <div class="bg-secondary text-white p-5 text-center">Изображение отсутствует</div>
+            {% endif %}
+            <div class="card-body">
+                <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+            </div>
+            <div class="btn-toolbar justify-content-between m-3" role="toolbar">
+                <div class="btn-group" role="group">
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-secondary">View</a>
+                    <button type="button" class="btn btn-outline-secondary">Edit</button>
+                </div>
+                <p class="card-text"><small class="text-muted">{{ product.created_at|date:"d.m.Y" }}</small></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
