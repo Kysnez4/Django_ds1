@@ -32,8 +32,19 @@
                         </a>
                         {% if user.is_staff %}
                         <div class="btn-group">
-                            <a href="{% url 'blog:post-update' post.pk %}" class="btn btn-outline-primary">
+                            <a href="{% url 'blogs:post-update' post.pk %}" class="btn btn-outline-primary">
                                 <i class="bi bi-pencil"></i> Редактировать
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        {% if user.is_staff %}
+                        <div class="btn-group">
+                            <a href="{% url 'blogs:post-update' post.pk %}" class="btn btn-outline-primary">
+                                <i class="bi bi-pencil"></i> Редактировать
+                            </a>
+                            <a href="{% url 'blogs:post-delete' post.pk %}" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i> Удалить
                             </a>
                         </div>
                         {% endif %}

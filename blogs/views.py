@@ -62,3 +62,15 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blogs:home')
+    template_name = 'blogs/post_confirm_delete.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # Разрешаем удаление только для staff пользователей
+        if not self.request.user.is_staff:
+            return queryset.none()
+        return queryset

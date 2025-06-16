@@ -40,14 +40,7 @@ class CategoryView(ListView):
     context_object_name = 'products'
     paginate_by = 6
 
-    def get_queryset(self):
-        # В реальном проекте нужно получать category_id из URL
-        return Product.objects.filter(category__name="Категория 1").order_by('-created_at')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['category'] = Category.objects.get(name="Категория 1")  # Временное решение
-        return context
 
 
 class ProductDetailView(DetailView):
