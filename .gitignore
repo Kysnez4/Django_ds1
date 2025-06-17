@@ -9,16 +9,10 @@ __pycache__/
 *.sqlite3
 
 # Development/Debugging
-*.pyc
-*.pyo
 *.pyd
 *.db
-*.sqlite3
 *.log
 *.pot
-*.pyc
-*.pyo
-*.pyd
 
 # Virtual Environment
 venv/
@@ -50,3 +44,6 @@ celerybeat.db
 
 # Ignore pipenv virtual environment
 Pipfile.lock
+
+#Security key
+.env

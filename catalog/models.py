@@ -1,3 +1,4 @@
+#app_name blogs
 from django.db import models
 
 # Create your models here.
