@@ -15,9 +15,9 @@
         <div class="col">
             <div class="card pricing-card h-100" style="width: 20rem;">
                 {% if product.image %}
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
                 {% else %}
-                    <div class="bg-secondary text-white p-5 text-center">Изображение отсутствует</div>
+                <div class="bg-secondary text-white p-5 text-center">Изображение отсутствует</div>
                 {% endif %}
                 <div class="card-body text-center">
                     <h4 class="my-0 fw-normal">{{ product.name }}</h4>

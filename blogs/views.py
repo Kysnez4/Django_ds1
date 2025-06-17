@@ -1,6 +1,8 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
+
+from blogs.forms import PostForm
 from blogs.models import Post
 
 
@@ -44,7 +46,7 @@ class PostDetailView(DetailView):
 
 class PostUpdateView(UpdateView):
     model = Post
-    fields = ['headline', 'content', 'image', 'publication']
+    form_class = PostForm
     template_name_suffix = '_update_form'
     enctype = 'multipart/form-data'
 
@@ -52,9 +54,10 @@ class PostUpdateView(UpdateView):
         # Перенаправление на просмотр статьи после редактирования
         return reverse_lazy('blogs:post-detail', kwargs={'pk': self.object.pk})
 
+
 class PostCreateView(CreateView):
     model = Post
-    fields = ['headline', 'content', 'image', 'publication']
+    form_class = PostForm
     template_name = 'blogs/post_form.html'
     success_url = reverse_lazy('blogs:home')
     enctype = 'multipart/form-data'
@@ -62,6 +65,7 @@ class PostCreateView(CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
 
 class PostDeleteView(DeleteView):
     model = Post
