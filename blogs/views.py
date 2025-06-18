@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.db.models import Q
@@ -44,7 +45,7 @@ class PostDetailView(DetailView):
         return obj
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name_suffix = '_update_form'
@@ -55,7 +56,7 @@ class PostUpdateView(UpdateView):
         return reverse_lazy('blogs:post-detail', kwargs={'pk': self.object.pk})
 
 
-class PostCreateView(CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm
     template_name = 'blogs/post_form.html'
@@ -67,7 +68,7 @@ class PostCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blogs:home')
     template_name = 'blogs/post_confirm_delete.html'

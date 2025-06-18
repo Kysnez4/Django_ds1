@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -37,7 +38,7 @@ class CatalogView(ListView):
     paginate_by = 6  # 6 товаров на странице
 
 
-class CategoryView(ListView):
+class CategoryView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/category.html'
     context_object_name = 'products'
@@ -51,7 +52,7 @@ class ProductDetailView(DetailView):
     pk_url_kwarg = 'product_id'
 
 
-class AddProductView(CreateView):
+class AddProductView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/add_product.html'
