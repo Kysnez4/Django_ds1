@@ -2,6 +2,8 @@ from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponse
+
+from .forms import ProductForm
 from .models import Product, Category
 
 
@@ -16,6 +18,7 @@ class HomeView(ListView):
         return super().get_queryset()[:3]
 
 
+# Как было пусть и будет пока
 class ContactView(TemplateView):
     template_name = 'catalog/contact.html'
 
@@ -41,8 +44,6 @@ class CategoryView(ListView):
     paginate_by = 6
 
 
-
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
@@ -52,7 +53,7 @@ class ProductDetailView(DetailView):
 
 class AddProductView(CreateView):
     model = Product
-    fields = ['name', 'description', 'price', 'category', 'image']
+    form_class = ProductForm
     template_name = 'catalog/add_product.html'
     success_url = reverse_lazy('home')
 

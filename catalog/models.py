@@ -1,5 +1,6 @@
-#app_name blogs
+# app_name blogs
 from django.db import models
+
 
 # Create your models here.
 class Product(models.Model):

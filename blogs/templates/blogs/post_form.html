@@ -13,25 +13,7 @@
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="headline" class="form-label">Название</label>
-                            <input type="text" class="form-control" id="headline" name="headline">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="content" class="form-label">Описание</label>
-                            <textarea class="form-control" id="content" name="content" rows="3"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="image" class="form-label">Изображение</label>
-                            <input type="file" class="form-control-file" id="image" name="image">
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="publication" name="publication" checked>
-                            <label class="form-check-label" for="publication">Опубликовать</label>
-                        </div>
+                        {{ form.as_p }}  <!-- Отображение полей формы -->
 
                         <div class="d-flex justify-content-end mt-4">
                             <a href="{% url 'blogs:home' %}" class="btn btn-outline-secondary me-2">Отмена</a>
