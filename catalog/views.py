@@ -20,7 +20,7 @@ class HomeView(ListView):
 
 
 # Как было пусть и будет пока
-class ContactView(TemplateView):
+class ContactView(LoginRequiredMixin, TemplateView):
     template_name = 'catalog/contact.html'
 
     def post(self, request, *args, **kwargs):
@@ -30,7 +30,7 @@ class ContactView(TemplateView):
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
 
 
-class CatalogView(ListView):
+class CatalogView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'catalog/catalog.html'
     context_object_name = 'products'
