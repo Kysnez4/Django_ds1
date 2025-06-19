@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from config.settings import EMAIL_HOST_USER
 from users.forms import RegisterUserForm, LoginUserForm
 
 
@@ -34,7 +35,7 @@ class RegisterView(CreateView):
         recipient_list = [user_email]
         send_mail(subject,
                   message,
-                  'from@example.com',  # Add from_email
+                  EMAIL_HOST_USER,
                   recipient_list,
                   fail_silently=False,
                   )

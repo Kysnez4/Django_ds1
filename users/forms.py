@@ -55,11 +55,6 @@ class RegisterUserForm(UserCreationForm):
             'placeholder': 'Введите страну',
         })
     )
-    avatar = forms.ImageField(
-        widget=forms.ClearableFileInput(attrs={
-            'class': 'form-control-file',
-        })
-    )
 
     class Meta:
         model = User
