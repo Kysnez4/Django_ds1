@@ -1,0 +1,33 @@
+{% extends 'catalog/base.html' %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div id="main" class="page-section">
+    <div class="py-5 text-center">
+        <h3>Главная</h3>
+        <p class="lead">Вы находитесь на сайте, предназначенном для продажи товаров.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for product in products %}
+        <!-- Товар -->
+        <div class="col">
+            <div class="card pricing-card h-100" style="width: 20rem;">
+                {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                {% else %}
+                <div class="bg-secondary text-white p-5 text-center">Изображение отсутствует</div>
+                {% endif %}
+                <div class="card-body text-center">
+                    <h4 class="my-0 fw-normal">{{ product.name }}</h4>
+                    <h1 class="card-title pricing-card-title">{{ product.price }} ₽</h1>
+                    <p class="card-text">{{ product.description|truncatechars:100 }}</p>
+                    <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-primary w-100">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
