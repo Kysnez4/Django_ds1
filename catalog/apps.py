@@ -1,3 +1,4 @@
+#catalog
 from django.apps import AppConfig
 
 

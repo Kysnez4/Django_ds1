@@ -1,3 +1,4 @@
+# catalog
 from django import forms
 from catalog.models import Product
 
@@ -17,10 +18,16 @@ ban_words = [
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'price', 'description', 'category', 'image']
+        fields = ['name', 'price', 'description', 'category', 'image', 'published']
+
+        widgets = {
+            'owner': forms.HiddenInput()  # Скрываем поле владельца в форме
+        }
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
+
         # Применяем классы стилей из add_product.html
         for field_name, field in self.fields.items():
             if field_name == 'description':
@@ -33,6 +40,10 @@ class ProductForm(forms.ModelForm):
                     'class': 'form-select'
                 })
             elif field_name == 'image':
+                field.widget.attrs.update({
+                    'class': 'form-control'
+                })
+            elif field_name == 'published':
                 field.widget.attrs.update({
                     'class': 'form-control'
                 })
@@ -60,3 +71,11 @@ class ProductForm(forms.ModelForm):
                 )
 
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.user:  # Устанавливаем владельца если пользователь передан
+            instance.owner = self.user
+        if commit:
+            instance.save()
+        return instance
