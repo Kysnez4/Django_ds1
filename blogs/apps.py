@@ -1,3 +1,4 @@
+#blog
 from django.apps import AppConfig
 
 

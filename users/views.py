@@ -1,3 +1,4 @@
+# users
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import send_mail
@@ -8,7 +9,6 @@ from config.settings import EMAIL_HOST_USER
 from users.forms import RegisterUserForm, LoginUserForm
 
 
-# Create your views here.
 class CustomUserLogin(LoginView):
     template_name = 'users/login.html'
     success_url = reverse_lazy('home')

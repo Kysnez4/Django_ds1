@@ -29,8 +29,33 @@
             </div>
 
             <button class="btn btn-primary mt-4">Добавить в корзину</button>
+
+            {% if can_unpublish and product.published %}
+            <form method="post" action="{% url 'unpublish_product' product.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning">Снять с публикации</button>
+            </form>
+            {% endif %}
+
+            {% if can_delete %}
+            <form method="post" action="{% url 'delete_product' product.id %}" style="margin-top: 10px;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить продукт</button>
+            </form>
+            {% endif %}
+            {% if can_edit %}
+            <a href="{% url 'update_product' product.id %}" class="btn btn-primary">Редактировать</a>
+            {% endif %}
+
+            {% if can_delete %}
+            <form method="post" action="{% url 'delete_product' product.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
         </div>
     </div>
 </div>
+
+{% endif %}
 
 {% endblock %}
