@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from catalog.models import Category, Product
+from catalog.models import Product, Category
 
 class Command(BaseCommand):
     help = "Fill the database with test products (deletes old data first)"
