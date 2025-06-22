@@ -1,14 +1,16 @@
 # catalog
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
 
+from config.settings import CACHE_ENABLED
 from .forms import ProductForm
 from .models import Product, Category
 
@@ -49,7 +51,23 @@ class CategoryView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
     paginate_by = 6
 
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        category = get_object_or_404(Category, id=category_id)
 
+        if not CACHE_ENABLED:
+            return Product.objects.filter(category_id=category_id, published=True).order_by('-created_at')
+
+        return Product.get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        context['category'] = get_object_or_404(Category, id=category_id)
+        return context
+
+
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
