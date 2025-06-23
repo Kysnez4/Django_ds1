@@ -1,16 +1,20 @@
 # catalog
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, TemplateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponse
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
+from config import settings
 from .forms import ProductForm
 from .models import Product, Category
+from .services.product_service import ProductService
 
 
 class HomeView(ListView):
@@ -49,12 +53,33 @@ class CategoryView(LoginRequiredMixin, ListView):
     context_object_name = 'products'
     paginate_by = 6
 
+    def get_queryset(self):
+        category_id = self.kwargs.get('category_id')
+        return ProductService.get_products_by_category(category_id)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs.get('category_id')
+        context['category'] = get_object_or_404(Category, id=category_id)
+        return context
+
+
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
     pk_url_kwarg = 'product_id'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if settings.CACHE_ENABLED:
+            cache_key = f'product_queryset_{self.kwargs.get(self.pk_url_kwarg)}'
+            cached = cache.get(cache_key)
+            if cached:
+                return cached
+            cache.set(cache_key, queryset, 60 * 15)
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +87,7 @@ class ProductDetailView(DetailView):
         user = self.request.user
         context['can_edit'] = user == product.owner
         context['can_delete'] = (user == product.owner or
-                                 user.has_perm('catalog.delete_product'))
+                               user.has_perm('catalog.delete_product'))
         return context
 
 

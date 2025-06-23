@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -12,6 +13,7 @@ class Category(models.Model):
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
         ordering = ['name']
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
