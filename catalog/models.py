@@ -1,7 +1,4 @@
 from django.db import models
-from django.core.cache import cache
-
-from config import settings
 from users.models import User
 
 
@@ -31,18 +28,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-    @classmethod
-    def get_products_by_category(cls, category_id):
-        if not settings.CACHE_ENABLED:
-            return cls.objects.filter(category_id=category_id, published=True).order_by('-created_at')
-
-        cache_key = f'products_category_{category_id}'
-        products = cache.get(cache_key)
-        if not products:
-            products = cls.objects.filter(category_id=category_id, published=True).order_by('-created_at')
-            cache.set(cache_key, products, 60 * 15)  # Кешируем на 15 минут
-        return products
 
     class Meta:
         verbose_name = 'Product'

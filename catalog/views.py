@@ -9,10 +9,12 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
-from config.settings import CACHE_ENABLED
+from config import settings
 from .forms import ProductForm
 from .models import Product, Category
+from .services.product_service import ProductService
 
 
 class HomeView(ListView):
@@ -53,12 +55,7 @@ class CategoryView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         category_id = self.kwargs.get('category_id')
-        category = get_object_or_404(Category, id=category_id)
-
-        if not CACHE_ENABLED:
-            return Product.objects.filter(category_id=category_id, published=True).order_by('-created_at')
-
-        return Product.get_products_by_category(category_id)
+        return ProductService.get_products_by_category(category_id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,13 +71,23 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
     pk_url_kwarg = 'product_id'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if settings.CACHE_ENABLED:
+            cache_key = f'product_queryset_{self.kwargs.get(self.pk_url_kwarg)}'
+            cached = cache.get(cache_key)
+            if cached:
+                return cached
+            cache.set(cache_key, queryset, 60 * 15)
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.get_object()
         user = self.request.user
         context['can_edit'] = user == product.owner
         context['can_delete'] = (user == product.owner or
-                                 user.has_perm('catalog.delete_product'))
+                               user.has_perm('catalog.delete_product'))
         return context
 
 
