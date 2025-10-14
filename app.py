@@ -1,48 +1,93 @@
-from flask import Flask, Response, send_from_directory
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
 
-app = Flask(__name__)
 
-# Путь к директории с шаблонами
-TEMPLATES_DIR = os.path.abspath('.')
+class CustomHandler(SimpleHTTPRequestHandler):
+    def __init__(self, *args, **kwargs):
+        # Устанавливаем корневую директорию для сервера
+        self.templates_dir = os.path.abspath('.')
+        super().__init__(*args, directory=self.templates_dir, **kwargs)
 
-# Маршрут для статических файлов (CSS, JS, изображения)
-@app.route('/static/<path:filename>')
-def static_files(filename):
-    return send_from_directory(os.path.join(TEMPLATES_DIR, 'static'), filename)
+    def do_GET(self):
+        # Обрабатываем маршруты
+        if self.path == '/':
+            self.serve_file('templates/main.html')
+        elif self.path == '/catalog.html':
+            self.serve_file('templates/catalog.html')
+        elif self.path == '/category.html':
+            self.serve_file('templates/category.html')
+        elif self.path == '/contacts.html':
+            self.serve_file('templates/contacts.html')
+        elif self.path.startswith('/static/'):
+            # Обрабатываем статические файлы
+            self.serve_static_file(self.path[8:])  # Убираем '/static/' из пути
+        else:
+            # Для всех остальных путей возвращаем главную страницу
+            self.serve_file('templates/main.html')
 
-# Функция для загрузки HTML-страницы
-def load_html_page(page_name):
+    def serve_file(self, file_path):
+        try:
+            full_path = os.path.join(self.templates_dir, file_path)
+            if not os.path.exists(full_path):
+                self.send_error(404, "Страница не найдена")
+                return
+
+            with open(full_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(content.encode('utf-8'))
+
+        except Exception as e:
+            self.send_error(500, f"Ошибка сервера: {str(e)}")
+
+    def serve_static_file(self, filename):
+        static_dir = os.path.join(self.templates_dir, 'static')
+        try:
+            full_path = os.path.join(static_dir, filename)
+            if not os.path.exists(full_path):
+                self.send_error(404, "Файл не найден")
+                return
+
+            # Определяем MIME-тип по расширению файла
+            ext = os.path.splitext(filename)[1].lower()
+            mime_types = {
+                '.css': 'text/css',
+                '.js': 'application/javascript',
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.gif': 'image/gif',
+                '.svg': 'image/svg+xml',
+                '.ico': 'image/x-icon'
+            }
+            content_type = mime_types.get(ext, 'application/octet-stream')
+
+            with open(full_path, 'rb') as file:
+                content = file.read()
+
+            self.send_response(200)
+            self.send_header('Content-type', content_type)
+            self.end_headers()
+            self.wfile.write(content)
+
+        except Exception as e:
+            self.send_error(500, f"Ошибка сервера: {str(e)}")
+
+
+def run_server():
+    server_address = ('', 8000)
+    httpd = HTTPServer(server_address, CustomHandler)
+    print("Сервер запущен на http://localhost:8000")
+    print("Для остановки сервера нажмите Ctrl+C")
     try:
-        with open(f'templates/{page_name}', 'r', encoding='utf-8') as file:
-            return Response(file.read(), mimetype='text/html')
-    except FileNotFoundError:
-        return Response("Страница не найдена", status=404)
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nСервер остановлен")
+        httpd.shutdown()
 
-# Главная страница
-@app.route('/')
-def main_page():
-    return load_html_page('main.html')
-
-# Страница каталога
-@app.route('/catalog.html')
-def catalog_page():
-    return load_html_page('catalog.html')
-
-# Страница категории
-@app.route('/category.html')
-def category_page():
-    return load_html_page('category.html')
-
-# Страница контактов
-@app.route('/contacts.html')
-def contacts_page():
-    return load_html_page('contacts.html')
-
-# Обработка всех остальных путей (возвращаем главную страницу)
-@app.route('/<path:path>')
-def catch_all(path):
-    return load_html_page('main.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    run_server()
